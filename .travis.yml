@@ -6,15 +6,11 @@ branches:
     - develop
 
 before_script:
-  - git clone --quiet https://github.com/tamaxyo/tamaxyo.github.io.git build
+  - '[ "$TRAVIS_BRANCH" == "develop" ] && [ $GH_TOKEN ] && rake setup'
 script:
-  - bundle exec middleman build
+  - 'rake build'
 after_script:
-  - cp .travis.yml build/
-  - cd build
-  - git add -A
-  - git commit -m "Update"
-  - '[ "$TRAVIS_BRANCH" == "develop" ] && [ $GH_TOKEN ] && git push --quiet https://$GH_TOKEN@github.com/tamaxyo/tamaxyo.github.io.git gh-pages 2> /dev/null'
+  - '[ "$TRAVIS_BRANCH" == "develop" ] && [ $GH_TOKEN ] && rake push'
 
 env:
   global:
