@@ -5,16 +5,78 @@
   <id>http://blog.url.com/</id>
   <link href="http://blog.url.com/"/>
   <link href="http://blog.url.com/feed.xml" rel="self"/>
-  <updated>2014-01-04T15:00:00Z</updated>
+  <updated>2014-01-05T23:30:00Z</updated>
   <author>
     <name>Blog Author</name>
   </author>
+  <entry>
+    <title>middleman-blogのセットアップ</title>
+    <link rel="alternate" href="http://blog.url.com/article/2014/01/06/setup-middleman-blog.html"/>
+    <id>http://blog.url.com/article/2014/01/06/setup-middleman-blog.html</id>
+    <published>2014-01-05T23:30:00Z</published>
+    <updated>2014-01-14T23:47:02+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;middlemna-blogのセットアップメモ。&lt;/p&gt;
+
+&lt;h3&gt;middlemanのインストール&lt;/h3&gt;
+
+&lt;p&gt;何も難しくはない。&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;gem install middleman
+&lt;/pre&gt;
+&lt;h3&gt;middlemanの初期化&lt;/h3&gt;
+
+&lt;p&gt;middlemanを使うためのテンプレートファイル(jsとかcssとか)が生成される。
+この後blog用にもう一度セットアップコマンド走らせるので、別にやらなくても大丈夫。&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;middleman init [dir]
+&lt;/pre&gt;
+&lt;h3&gt;middleman-blogの初期化&lt;/h3&gt;
+
+&lt;p&gt;blog特化のテンプレートファイル(calendarとかtagとかfeedとか)が生成される。
+config.rbに設定のテンプレートが配備されるので、コメントを眺めながらカスタマイズ。&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;middleman init [dir] --template=blog
+&lt;/pre&gt;
+&lt;h3&gt;middleman-deployの導入&lt;/h3&gt;
+
+&lt;p&gt;今回はGitHub Pagesのユーザサイトを構築しているので、masterブランチにpushするように設定。&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:deploy&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;method&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:git&lt;/span&gt;
+  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;branch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'master'&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; ユーザページなのでmasterにpush&lt;/span&gt;
+  &lt;span class="n"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;build_before&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;true&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; deploy前にbuild実行&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;とりあえず、これでワンコマンド (&lt;code&gt;bundle exec middleman deploy&lt;/code&gt;)でbuildとdeployが出来るようになったのですごく便利にデプロイテストが出来た。
+けれども、この後Travis CIと連携させようと思ったらどうにも上手くpushできなかったので、rakeに置き換えてしまった。&lt;/p&gt;
+
+&lt;h3&gt;Travis CIからデプロイを実行する&lt;/h3&gt;
+
+&lt;p&gt;middleman-deployを使うとdeployは簡単になるけれども、もうちょっと楽をするためにGitHubにpushしたタイミングでTravis CIを使ってデプロイをすることにした。rakeはほとんどパクリな状態だけど、push先がmasterなのでbranchの存在確認とか、masterでCIが走らないように.travis.ymlをコピーしておくあたりの操作を追加した感じでひとまず決着させた。&lt;/p&gt;
+
+&lt;h3&gt;はまったこと&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="http://middlemanapp.com/basics/blogging/"&gt;middlemanの公式情報&lt;/a&gt;を眺めてて、&lt;code&gt;blog.prefix&lt;/code&gt;という設定を見かけたので、なんとなく使ってみたのだけれどこれが上手く動かず、記事を年月のディレクトリ階層に分かれなかったりしたので、それを諦めたら結構簡単に設定は終わった。&lt;/p&gt;
+
+&lt;h3&gt;これから&lt;/h3&gt;
+
+&lt;p&gt;ひとまずデプロイまでは出来るようになったので満足してしまった感があるけども・・・デザイン決めたりコンテンツ増やしたり、していかないとなぁ&lt;/p&gt;
+
+&lt;h3&gt;参考にした情報&lt;/h3&gt;
+
+&lt;p&gt;多謝 m(_ _)m&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href="http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html"&gt;ブログをJekyllからmiddlemanに移行してTravis CIでGitHub Pagesにデプロイするようにした&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href="http://blog.coiney.com/2013/06/21/host-middleman-blog-on-github/"&gt;middleman-blogをgithubでホストする&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   <entry>
     <title>First Article</title>
     <link rel="alternate" href="http://blog.url.com/article/2014/01/05/first-article.html"/>
     <id>http://blog.url.com/article/2014/01/05/first-article.html</id>
     <published>2014-01-04T15:00:00Z</published>
-    <updated>2014-01-14T23:21:17+00:00</updated>
+    <updated>2014-01-14T23:47:02+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
