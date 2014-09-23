@@ -3,20 +3,51 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
-    <title>tmp</title>
+    <title>Tommorow never comes</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
+    <link href="/css/all.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/normalize.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/css/syntax.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>
     
     <div id="main" role="main">
+      <nav>
+  <ul>
+    <li>
+      <a class="blog-title" href="/">Tomorrow never comes</a>
+    </li>
+  </ul>
+</nav>
+
       
-  <h2><a href="/article/2014/01/06/setup-middleman-blog.html">middleman-blogのセットアップ</a> <span>Jan  6</span></h2>
-  <!-- use article.summary(250) if you have Nokogiri available to show just
+      
+<ul>
+  <li class="summary">
+    <h3><a href="/article/2014/09/22/styling-a-middleman-blog.html">styling a middleman blog</a></h3>
+    <h5>Sep 22</h5>
+    <!-- use article.summary(250) if you have Nokogiri available to show just
        the first 250 characters -->
-  <p>middlemna-blogのセットアップメモ。</p>
+    <p><p>middlemanのセットアップを済ませてからはや半年以上。
+「仕事が忙しい」を自分の勝手な言い訳に放置してたけど、
+いい加減恥ずかしいので見た目くらいは整えてみようと重い腰を上げてみた。</p>
+
+<p>と言ってもやったことは丸写しなわけなので、こっちを見てねということで。
+とりあえず、ブログを書く習慣をつけたいなぁという、それだけのことです。</p>
+
+<blockquote>
+<p><a href="http://robots.thoughtbot.com/middleman-bourbon-walkthrough">Styling a Middleman Blog with Bourbon, Neat, and Bitters</a></p>
+</blockquote>
+
+<p>ちなみに、これに従って導入したgem...</p></p>
+  </li>
+  <li class="summary">
+    <h3><a href="/article/2014/01/06/setup-middleman-blog.html">middleman-blogのセットアップ</a></h3>
+    <h5>Jan  6</h5>
+    <!-- use article.summary(250) if you have Nokogiri available to show just
+       the first 250 characters -->
+    <p><p>middleman-blogのセットアップメモ。</p>
 
 <h3>middlemanのインストール</h3>
 
@@ -31,79 +62,98 @@
 </pre>
 <h3>middleman-blogの初期化</h3>
 
-<p>blog特化のテンプレートファイル(calendarとかtagとかfeedとか)が生成される。
-config.rbに設定のテンプレートが配備されるので、コメントを眺めながらカスタマイズ。</p>
-<pre class="highlight plaintext">middleman init [dir] --template=blog
-</pre>
-<h3>middleman-deployの導入</h3>
-
-<p>今回はGitHub Pagesのユーザサイトを構築しているので、masterブランチにpushするように設定。</p>
-<pre class="highlight ruby"><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
-  <span class="n">deploy</span><span class="p">.</span><span class="nf">method</span> <span class="o">=</span> <span class="ss">:git</span>
-  <span class="n">deploy</span><span class="p">.</span><span class="nf">branch</span> <span class="o">=</span> <span class="s1">'master'</span> <span class="c1">#=&gt; ユーザページなのでmasterにpush</span>
-  <span class="n">deploy</span><span class="p">.</span><span class="nf">build_before</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1">#=&gt; deploy前にbuild実行</span>
-<span class="k">end</span>
-</pre>
-<p>とりあえず、これでワンコマンド (<code>bundle exec middleman deploy</code>)でbuildとdeployが出来るようになったのですごく便利にデプロイテストが出来た。
-けれども、この後Travis CIと連携させようと思ったらどうにも上手くpushできなかったので、rakeに置き換えてしまった。</p>
-
-<h3>Travis CIからデプロイを実行する</h3>
-
-<p>middleman-deployを使うとdeployは簡単になるけれども、もうちょっと楽をするためにGitHubにpushしたタイミングでTravis CIを使ってデプロイをすることにした。rakeはほとんどパクリな状態だけど、push先がmasterなのでbranchの存在確認とか、masterでCIが走らないように.travis.ymlをコピーしておくあたりの操作を追加した感じでひとまず決着させた。</p>
-
-<h3>はまったこと</h3>
-
-<p><a href="http://middlemanapp.com/basics/blogging/">middlemanの公式情報</a>を眺めてて、<code>blog.prefix</code>という設定を見かけたので、なんとなく使ってみたのだけれどこれが上手く動かず、記事を年月のディレクトリ階層に分かれなかったりしたので、それを諦めたら結構簡単に設定は終わった。</p>
-
-<h3>これから</h3>
-
-<p>ひとまずデプロイまでは出来るようになったので満足してしまった感があるけども・・・デザイン決めたりコンテンツ増やしたり、していかないとなぁ</p>
-
-<h3>参考にした情報</h3>
-
-<p>多謝 m(_ _)m</p>
-
-<ul>
-<li><p><a href="http://webtech-walker.com/archive/2013/08/jekyll_to_middleman.html">ブログをJekyllからmiddlemanに移行してTravis CIでGitHub Pagesにデプロイするようにした</a></p></li>
-<li><p><a href="http://blog.coiney.com/2013/06/21/host-middleman-blog-on-github/">middleman-blogをgithubでホストする</a></p></li>
-</ul>
-
-  <h2><a href="/article/2014/01/05/first-article.html">First Article</a> <span>Jan  5</span></h2>
-  <!-- use article.summary(250) if you have Nokogiri available to show just
+<p>blog特化のテンプレートファイル(calendar...</p></p>
+  </li>
+  <li class="summary">
+    <h3><a href="/article/2014/01/05/first-article.html">First Article</a></h3>
+    <h5>Jan  5</h5>
+    <!-- use article.summary(250) if you have Nokogiri available to show just
        the first 250 characters -->
-  <h1>最初の記事</h1>
+    <p><h1>最初の記事</h1>
 
 <p>基本的にめんどくさがりなので、ブログとか作ってはやめてたけど、なんとなく最近の静的サイトジェネレータくらいは触っておきたくてmiddleman使ってブログ環境だけは作ってみた。</p>
 
 <p>気が向いたら記事を増やしていくと思います。</p>
+</p>
+  </li>
+</ul>
 
 
+      <footer>
+  <ul class="small-column">
+    <li><h5 class="heading">Recent Articles</h5></li>
+    <li>
+      <ol>
+        
+          <li>
+            <a href="/article/2014/09/22/styling-a-middleman-blog.html">styling a middleman blog</a>
+            <span></span>
+          </li>
+        
+          <li>
+            <a href="/article/2014/01/06/setup-middleman-blog.html">middleman-blogのセットアップ</a>
+            <span></span>
+          </li>
+        
+          <li>
+            <a href="/article/2014/01/05/first-article.html">First Article</a>
+            <span></span>
+          </li>
+        
+      </ol>
+    </li>
+    </ul>
+
+  <ul class="small-column">
+    <li><h5 class="heading">Tags</h5></li>
+    <li>
+      <ol>
+        
+          <li><a href="/tags/middleman.html">middleman (1)</a></li>
+        
+      </ol>
+    </li>
+  </ul>
+
+  <ul class="small-column">
+    <li><h5 class="heading">By Year</h5></li>
+    <li>
+      <ol>
+         
+          <li><a href="/2014.html">2014</a> (3)</a></li>
+        
+      </ol>
+    </li>
+  </ul>
+</footer>
 
     </div>
     
-    <aside>
-      <h2>Recent Articles</h2>
-      <ol>
-        
-          <li><a href="/article/2014/01/06/setup-middleman-blog.html">middleman-blogのセットアップ</a> <span>Jan  6</span></li>
-        
-          <li><a href="/article/2014/01/05/first-article.html">First Article</a> <span>Jan  5</span></li>
-        
-      </ol>
+    <!-- <aside> -->
+    <!--   <h2>Recent Articles</h2> -->
+    <!--   <ol> -->
+    <!--      -->
+    <!--       <li><a href="/article/2014/09/22/styling-a-middleman-blog.html">styling a middleman blog</a> <span>Sep 22</span></li> -->
+    <!--      -->
+    <!--       <li><a href="/article/2014/01/06/setup-middleman-blog.html">middleman-blogのセットアップ</a> <span>Jan  6</span></li> -->
+    <!--      -->
+    <!--       <li><a href="/article/2014/01/05/first-article.html">First Article</a> <span>Jan  5</span></li> -->
+    <!--      -->
+    <!--   </ol> -->
 
-      <h2>Tags</h2>
-      <ol>
-        
-          <li><a href="/tags/middleman.html">middleman</a> (1)</a></li>
-        
-      </ol>
+    <!--   <h2>Tags</h2> -->
+    <!--   <ol> -->
+    <!--      -->
+    <!--       <li><a href="/tags/middleman.html">middleman</a> (1)</a></li> -->
+    <!--      -->
+    <!--   </ol> -->
 
-      <h2>By Year</h2>
-      <ol>
-        
-          <li><a href="/2014.html">2014</a> (2)</a></li>
-        
-      </ol>
-    </aside>
+    <!--   <h2>By Year</h2> -->
+    <!--   <ol> -->
+    <!--      -->
+    <!--       <li><a href="/2014.html">2014</a> (3)</a></li> -->
+    <!--      -->
+    <!--   </ol> -->
+    <!-- </aside> -->
   </body>
 </html>
